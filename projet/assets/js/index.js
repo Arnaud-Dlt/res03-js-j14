@@ -2,6 +2,7 @@ import { User } from './classes/user.js';
 import { Book } from './classes/book.js';
 
 window.addEventListener("DOMContentLoaded", function (){
+    
     let users = [];
     let user1 = new User(0, "Maurice", "email1@gmail.com", "azerty", "Maurice", "Dupont", "profileImage");
     let user2 = new User(1, "Jean", "email2@gmail.com", "uiop", "Jean", "Dupond", "profileImage");
@@ -11,7 +12,7 @@ window.addEventListener("DOMContentLoaded", function (){
     users.push(user2);
     users.push(user3);
     let jsonUser = JSON.stringify(users);
-    sessionStorage.setItem("user", jsonUser);
+    sessionStorage.setItem("users", jsonUser);
     
     let books = [];
     let book1 = new Book(0, "La Ligne Verte", "Stephen King", "03/07/2000", 507, "Le bloc E, celui des condamnés à mort, reçoit un nouveau pensionnaire: John Caffey ", "https://www.babelio.com/couv/CVT_La-Ligne-Verte_9123.jpg");
@@ -21,10 +22,33 @@ window.addEventListener("DOMContentLoaded", function (){
     books.push(book1);
     books.push(book2);
     books.push(book3);
-    let jsonBook = JSON.stringify(books);
-    sessionStorage.setItem("book", jsonBook);
     
-    console.log(users);
-    console.log(books);
+    let jsonBook = JSON.stringify(books);
+    sessionStorage.setItem("books", jsonBook);
+    
+    let booksStorage = JSON.parse(sessionStorage.getItem("books"));
+    let usersStorage = JSON.parse(sessionStorage.getItem("users"));
+
+    let newBooks = [];
+    let newUsers = [];
+
+
+    for(let i = 0 ; i < booksStorage.length; i++) {
+        let parseData = JSON.parse(booksStorage[i]);
+        let newBook = new Book(parseData.id, parseData.title, parseData.author, parseData.publicationDate, parseData.totalPages, parseData.excerpt, parseData.coverImage);
+        newBooks.push(newBook);
+    }
+
+    for(let i = 0; i < usersStorage.length; i++) {
+        let parseData = JSON.parse(usersStorage[i]);
+        let newUser = new User(parseData.id, parseData.username, parseData.email, parseData.password, parseData.firstName, parseData.lastName, parseData.profileImage);
+        newUsers.push(newUser);
+    }
+
+    console.log(newBooks);
+    console.log(newUsers);
+    
+    
+    
     
 })
