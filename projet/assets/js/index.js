@@ -1,5 +1,7 @@
 import { User } from './classes/user.js';
 import { Book } from './classes/book.js';
+import { BookManager } from './classes/bookManager.js';
+import { UserManager } from './classes/userManager.js';
 
 window.addEventListener("DOMContentLoaded", function (){
     
@@ -14,10 +16,20 @@ window.addEventListener("DOMContentLoaded", function (){
     let jsonUser = JSON.stringify(users);
     sessionStorage.setItem("users", jsonUser);
     
+    let usersStorage = JSON.parse(sessionStorage.getItem("users"));
+    let newUsers = [];
+    
+    for(let i = 0; i < usersStorage.length; i++) {
+        let parseData = JSON.parse(usersStorage[i]);
+        let newUser = new User(parseData.id, parseData.username, parseData.email, parseData.password, parseData.firstName, parseData.lastName, parseData.profileImage);
+        newUsers.push(newUser);
+    }
+    
+    
     let books = [];
-    let book1 = new Book(0, "La Ligne Verte", "Stephen King", "03/07/2000", 507, "Le bloc E, celui des condamnés à mort, reçoit un nouveau pensionnaire: John Caffey ", "https://www.babelio.com/couv/CVT_La-Ligne-Verte_9123.jpg");
-    let book2 = new Book(1, "Le Sorceleur", "Andrzej Sapkowski", "16/01/2019", 307, "Geralt de Riv est un homme inquiétant, un mutant devenu le parfait assassin. En ces temps obscurs, ogres, goules et vampires pullulent,...", "https://www.babelio.com/couv/CVT_Le-Sorceleur-tome-1--Le-Dernier-Voeu-reedition_2699.jpg");
-    let book3 = new Book(2, "Le seigneur des anneaux", "J.R.R. Tolkien", "03/03/2005", 704, "Le Tiers Age touche à sa fin, et la Terre du Milieu à son crépuscule. La Compagnie de l'Anneau va donc tâcher de déjouer les projets infernaux de Sauron, force du mal d'autant plus difficile à combattre qu'elle est désincarnée", "https://www.babelio.com/couv/CVT_Le-Seigneur-des-Anneaux-Tome-1--La-Communaute-de-_7762.jpg");
+    let book1 = new Book(0, "La Ligne Verte", "Stephen King", "2000", 507, "Le bloc E, celui des condamnés à mort, reçoit un nouveau pensionnaire: John Caffey ", "https://www.babelio.com/couv/CVT_La-Ligne-Verte_9123.jpg");
+    let book2 = new Book(1, "Le Sorceleur", "Andrzej Sapkowski", "2019", 307, "Geralt de Riv est un homme inquiétant, un mutant devenu le parfait assassin. En ces temps obscurs, ogres, goules et vampires pullulent,...", "https://www.babelio.com/couv/CVT_Le-Sorceleur-tome-1--Le-Dernier-Voeu-reedition_2699.jpg");
+    let book3 = new Book(2, "Le seigneur des anneaux", "J.R.R. Tolkien", "2005", 704, "Le Tiers Age touche à sa fin, et la Terre du Milieu à son crépuscule. La Compagnie de l'Anneau va donc tâcher de déjouer les projets infernaux de Sauron, force du mal d'autant plus difficile à combattre qu'elle est désincarnée", "https://www.babelio.com/couv/CVT_Le-Seigneur-des-Anneaux-Tome-1--La-Communaute-de-_7762.jpg");
     
     books.push(book1);
     books.push(book2);
@@ -27,28 +39,13 @@ window.addEventListener("DOMContentLoaded", function (){
     sessionStorage.setItem("books", jsonBook);
     
     let booksStorage = JSON.parse(sessionStorage.getItem("books"));
-    let usersStorage = JSON.parse(sessionStorage.getItem("users"));
-
     let newBooks = [];
-    let newUsers = [];
-
-
+    
     for(let i = 0 ; i < booksStorage.length; i++) {
         let parseData = JSON.parse(booksStorage[i]);
         let newBook = new Book(parseData.id, parseData.title, parseData.author, parseData.publicationDate, parseData.totalPages, parseData.excerpt, parseData.coverImage);
         newBooks.push(newBook);
     }
-
-    for(let i = 0; i < usersStorage.length; i++) {
-        let parseData = JSON.parse(usersStorage[i]);
-        let newUser = new User(parseData.id, parseData.username, parseData.email, parseData.password, parseData.firstName, parseData.lastName, parseData.profileImage);
-        newUsers.push(newUser);
-    }
-
-    console.log(newBooks);
-    console.log(newUsers);
-    
-    
     
     
 })
